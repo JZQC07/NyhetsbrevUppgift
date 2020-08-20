@@ -1,7 +1,9 @@
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 
 
 
@@ -11,6 +13,10 @@ var newusersRouter = require('./routes/newusers');
 var adminRouter = require('./routes/admin');
 
 var app = express();
+
+app.use(cors({
+    origin: 'http://localhost:3001'
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
