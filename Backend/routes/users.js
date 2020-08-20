@@ -36,16 +36,32 @@ router.post('/', function (req, res) {
 
 //Logga in
 router.post('/login', function (req, res) {
-  fs.readFile('users.json', (err, data) => {
-    if (err) throw err;
-    var users = JSON.parse(data);
-    users.forEach(element => {
-      if (element.userName === req.body.userName && element.password === req.body.password) {
-        res.send(element.id.toString());
-      }
-    })
-  })
+  var newUsername = req.body.loginUserName;
+  var newPassword = req.body.loginUserPassword;
 
+  fs.readFile('users.json', (err, data) => {
+
+    var users = JSON.parse(data);
+    if (err) throw err;
+
+    const [foundUser] = users.filter(user => {
+      return user.userName === newUsername && user.password === newPassword;
+    });
+
+    if (foundUser) {
+      console.log("foundUser: true");
+      res.send({
+        ...foundUser,
+        loggedIn: true,
+      });
+    } else {
+      res.status(400).send({
+        loggedIn: false,
+        userName: null,
+        userEmail: null,
+      });
+    }
+  })
 });
 
 router.put('/:id', (req, res) => {
