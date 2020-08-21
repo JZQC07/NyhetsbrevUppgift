@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import axios from 'axios';
-import './App.css';
+import '../'
 
 
 class Homepage extends Component {
@@ -108,14 +108,14 @@ class Homepage extends Component {
         if (this.state.loggedIn === true) {
             return (
 
-                <div>
+                <div className="body">
                     <p>
                         Subscribe to newsletter!
             </p>
 
                     <form onSubmit={this.changeNewsLetter}>
-                        <div class="newsletter">
-                            Set Newsletter status to TRUE by clicking here: <button onClick={this.onClickHandler}>
+                        <div className="newsletter">
+                            Set subscription status to TRUE by clicking here: <button className="button" onClick={this.onClickHandler}>
                                 {this.state.isToggleOn ? 'ON' : 'OFF'}
                             </button>
                         </div>
@@ -132,7 +132,7 @@ class Homepage extends Component {
             return (
 
                 <div>
-                    <form onSubmit={this.submitHandler}>
+                    <form className="form" onSubmit={this.submitHandler}>
                         <div>
                             <input
 
@@ -141,7 +141,7 @@ class Homepage extends Component {
                                 value={userName}
                                 onChange={this.changeHandler}
                             />
-                            <label for="unId">username:</label>
+                            <label for="unId">New username:</label>
                         </div>
                         <div>
 
@@ -151,7 +151,7 @@ class Homepage extends Component {
                                 value={userEmail}
                                 onChange={this.changeHandler}
                             />
-                            <label for="emailId">email:</label>
+                            <label for="emailId">New email:</label>
                         </div>
                         <div>
 
@@ -161,14 +161,14 @@ class Homepage extends Component {
                                 value={password}
                                 onChange={this.changeHandler}
                             />
-                            <label for="passwordId">password:</label>
+                            <label for="passwordId">New password:</label>
                         </div>
-                        <button type="submit" onClick={this.adduser} >Register</button>
+                        <button class="registerButton" type="submit" onClick={this.adduser} >Register</button>
 
 
                     </form>
 
-                    <form onSubmit={this.submitHandler}>
+                    <form className ="form1" onSubmit={this.submitHandler}>
 
                         <div>
                             <input
@@ -192,7 +192,7 @@ class Homepage extends Component {
                             <label for="userloginPassowrdId">password:</label>
                         </div>
 
-                        <button type="submit" onClick={this.login} >Login</button>
+                        <button class="button" type="submit" onClick={this.login} >Login</button>
 
 
                     </form>
