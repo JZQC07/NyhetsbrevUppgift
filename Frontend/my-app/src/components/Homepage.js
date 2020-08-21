@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import axios from 'axios';
+import './App.css';
 
 
 class Homepage extends Component {
@@ -113,7 +114,7 @@ class Homepage extends Component {
             </p>
 
                     <form onSubmit={this.changeNewsLetter}>
-                        <div>
+                        <div class="newsletter">
                             Set Newsletter status to TRUE by clicking here: <button onClick={this.onClickHandler}>
                                 {this.state.isToggleOn ? 'ON' : 'OFF'}
                             </button>
