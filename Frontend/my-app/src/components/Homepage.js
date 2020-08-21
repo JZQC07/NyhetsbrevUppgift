@@ -86,22 +86,10 @@ class Homepage extends Component {
             .catch(error => {
                 console.log(error);
             })
-
-
-
-
     }
 
-
-
-
-
-
-
+    
     render() {
-
-
-
         const { userName, userEmail, password } = this.state
         const { loginUserName, loginUserPassword } = this.state
 
@@ -110,9 +98,8 @@ class Homepage extends Component {
 
                 <div className="body">
                     <p>
-                        Subscribe to newsletter!
+                        Click the green button below to change newsletter subscription status to TRUE.
             </p>
-
                     <form onSubmit={this.changeNewsLetter}>
                         <div className="newsletter">
                             Set subscription status to TRUE by clicking here: <button className="button" onClick={this.onClickHandler}>
@@ -168,7 +155,7 @@ class Homepage extends Component {
 
                     </form>
 
-                    <form className ="form1" onSubmit={this.submitHandler}>
+                    <form className="form1" onSubmit={this.submitHandler}>
 
                         <div>
                             <input
