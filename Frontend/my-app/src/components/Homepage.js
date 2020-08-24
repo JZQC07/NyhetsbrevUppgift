@@ -47,7 +47,7 @@ class Homepage extends Component {
                     console.log("Något gick fel här..");
                 } else {
                     var loggedInUser = {
-                        username: response.data.loginUserName,
+                        userName: response.data.loginUserName,
                         subscribed: response.data.subscribed,
                     };
                     this.setState({
@@ -66,9 +66,9 @@ class Homepage extends Component {
     }
 
     changeNewsLetter = () => {
-        axios.put("http://localhost:3000/users/:id")
+        axios.put("http://localhost:3000/users/" + this.state.id, this.state)
         .then(response => {
-            console.log(response)
+            console.log(response);    
         })
         .catch(error => {
             console.log(error);

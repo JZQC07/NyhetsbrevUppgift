@@ -26,12 +26,12 @@ router.post('/', function (req, res) {
       userId++;
     });
     user = {
-        id: userId + 1,
-        userName: req.body.userName,
-        userEmail: req.body.userEmail,
-        password: req.body.password,
-        subscribed: false,
-        loggedIn: false
+      id: userId + 1,
+      userName: req.body.userName,
+      userEmail: req.body.userEmail,
+      password: req.body.password,
+      subscribed: false,
+      loggedIn: false
     };
     users.push(user);
     fs.writeFile('users.json', JSON.stringify(users), (err) => {
@@ -61,7 +61,7 @@ router.post('/login', function (req, res) {
         loggedIn: true,
       });
     } else {
-      res.send("Felaktig inloggning.. Försök igen");  //Kolla om detta funkar.
+      res.send("Felaktig inloggning.. Försök igen"); //Kolla om detta funkar.
       res.status(400).send({
         loggedIn: false,
         userName: null,
@@ -74,22 +74,43 @@ router.post('/login', function (req, res) {
 
 //Uppdatera newsletter
 router.put('/users/:id', (req, res) => {
+  fs.readFile('users.json', (err, data) => {
+    if (err) throw err;
+
+    var users = JSON.parse(data);
+
+    for (let i = 0; i < users.length; i++) {
+      if (req.body.id == i) {
+        users[i].subscribed = req.body.subscribed
+        var saveUser = JSON.stringify(users, null, 2);
+        fs.writeFile('users.json', saveUser, (err, data) => {
+          if (err) throw err
+        })
+        res.send("Subscription status has been updated for user with id: " + i);
+      }
+    }
+    res.send("Did not find a user with matching id..");
+  })
+})
+
+
+
+
+/*router.put('/users/:id', (req, res) => {
   var id = parseInt(req.params.id);
   var updatedUser = req.body.subscribed;
 
   fs.readFile('users.json', (err, data) => {
     if (err) throw err;
     var users = JSON.parse(data);
-    users.forEach(u => {
-      if (u.id === id) {
-        u.subscribed = updatedUser
-      }
+    var userFind = users.find((user) => user.id == id);
+    userFind.newsletter = updatedUser;
     });
-    fs.writeFile('users.json', JSON.stringify(users), (err) => {
+    fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
       if (err) throw err;
     });
-  });
-  res.status(200).send(req.body);
-});
+    res.status(200).send(req.body);
+  });*/
+
 
 module.exports = router;
