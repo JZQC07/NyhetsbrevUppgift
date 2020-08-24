@@ -23,7 +23,7 @@ router.get("/", function (req, res) {
             html += "<br><div>";
             html += "<li>";
             html += "<l>";
-            html += user.userEmail + " " + user.newsletter;
+            html += "Email: " + user.userEmail + " " + "Subscription status: " + user.subscribed;
             html += "</l>";
             html += "</li>";
             html += "</div>";

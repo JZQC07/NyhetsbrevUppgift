@@ -16,18 +16,25 @@ router.get('/', function (req, res, next) {
 });
 
 
-//Uppdatera användare
+//Skapa användare
 router.post('/', function (req, res) {
-  console.log(req.body);
-  var user = req.body;
-  console.log(user);
   fs.readFile('users.json', (err, data) => {
     if (err) throw err;
-
-    var json = JSON.parse(data);
-    json.push(user);
-
-    fs.writeFile('users.json', JSON.stringify(json), (err) => {
+    var users = JSON.parse(data);
+    let userId = 0;
+    users.forEach((element) => {
+      userId++;
+    });
+    user = {
+        id: userId + 1,
+        userName: req.body.userName,
+        userEmail: req.body.userEmail,
+        password: req.body.password,
+        subscribed: false,
+        loggedIn: false
+    };
+    users.push(user);
+    fs.writeFile('users.json', JSON.stringify(users), (err) => {
       if (err) throw err;
     });
   });
@@ -49,12 +56,12 @@ router.post('/login', function (req, res) {
     });
 
     if (foundUser) {
-      console.log("foundUser: true");
       res.send({
         ...foundUser,
         loggedIn: true,
       });
     } else {
+      res.send("Felaktig inloggning.. Försök igen");  //Kolla om detta funkar.
       res.status(400).send({
         loggedIn: false,
         userName: null,
@@ -64,22 +71,21 @@ router.post('/login', function (req, res) {
   })
 });
 
-router.put('/:id', (req, res) => {
+
+//Uppdatera newsletter
+router.put('/users/:id', (req, res) => {
   var id = parseInt(req.params.id);
   var updatedUser = req.body.subscribed;
 
   fs.readFile('users.json', (err, data) => {
     if (err) throw err;
-
-    var json = JSON.parse(data);
-
-    json.forEach(element => {
-      if (element.id === id) {
-        element.subscribed = updatedUser
+    var users = JSON.parse(data);
+    users.forEach(u => {
+      if (u.id === id) {
+        u.subscribed = updatedUser
       }
     });
-
-    fs.writeFile('users.json', JSON.stringify(json), (err) => {
+    fs.writeFile('users.json', JSON.stringify(users), (err) => {
       if (err) throw err;
     });
   });

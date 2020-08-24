@@ -1,18 +1,16 @@
 import React, { Component } from "react"
 import './App.css';
-
 import axios from 'axios';
 
 
 class login extends Component {
 
 
-changeHandler = e => {
-
-this.setState({ [e.target.name]: e.target.value })
+handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
 }
 
-submitHandler = e => {
+handleSubmit = e => {
 
 
 e.preventDefault();
@@ -23,7 +21,7 @@ e.preventDefault();
 login = e => {
 e.preventDefault();
 
-axios.post("http://localhost:3000/users",this.state)
+axios.post("http://localhost:3000/users", this.state)
 .then(response => {
 console.log(response)
 })
@@ -40,13 +38,13 @@ const { loginUser, userLoginPassword} = this.state
 return (
 
 <div class ="Login">
-    <form onSubmit={this.submitHandler}>
+    <form onSubmit={this.handleSubmit}>
         <div>
-            <input type="text" placeholder="Username" name="Username" value={loginUser} onChange={this.changeHandler} />
+            <input type="text" placeholder="Username" name="Username" value={loginUser} onChange={this.handleChange} />
         </div>
 
         <div>
-            <input type="password"  placeholder="password" name="Password" value={userLoginPassword} onChange={this.changeHandler} />
+            <input type="password"  placeholder="password" name="Password" value={userLoginPassword} onChange={this.handleChange} />
         </div>
         <button type="submit" onClick={this.login}>Login</button>
     </form>

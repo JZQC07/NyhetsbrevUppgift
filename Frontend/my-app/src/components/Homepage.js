@@ -8,35 +8,30 @@ class Homepage extends Component {
 
     constructor(props) {
         super(props)
-
         this.state = {
+            id: "",
             userName: '',
             userEmail: '',
             password: '',
             subscribed: false,
             loggedIn: false
-
-
         }
     }
 
-    changeHandler = e => {
+    handleChange = e => {
 
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    submitHandler = e => {
+    handleSubmit = e => {
 
 
         e.preventDefault();
 
     }
 
-
-    adduser = e => {
-
+    addUser = e => {
         e.preventDefault();
-
         axios.post("http://localhost:3000/users", this.state)
             .then(response => {
                 console.log(response)
@@ -44,17 +39,12 @@ class Homepage extends Component {
             .catch(error => {
                 console.log(error);
             })
-
-
-
     }
 
     login = e => {
         axios.post("http://localhost:3000/users/login", this.state)
-
             .then(response => {
-                console.log(response)
-                console.log(typeof (response.data.subscribed));
+                console.log(response);
                 if (response.data === "invalid") {
                     console.log("Något gick fel här..");
                 } else {
@@ -78,20 +68,19 @@ class Homepage extends Component {
     }
 
     changeNewsLetter = () => {
-
-        axios.post("http://localhost:3000/users", this.state, this.state.subscribed = true)
+        this.setState({subscribed: true})
+        console.log(this.state);
+        axios.put("http://localhost:3000/users/" + this.state.id, this.state)
             .then(response => {
                 console.log(response)
+
             })
             .catch(error => {
                 console.log(error);
             })
     }
-
     
     render() {
-        const { userName, userEmail, password } = this.state
-        const { loginUserName, loginUserPassword } = this.state
 
         if (this.state.loggedIn === true) {
             return (
@@ -100,9 +89,9 @@ class Homepage extends Component {
                     <p>
                         Click the green button below to change newsletter subscription status to TRUE.
             </p>
-                    <form onSubmit={this.changeNewsLetter}>
+                    <form>
                         <div className="newsletter">
-                            Set subscription status to TRUE by clicking here: <button className="button" onClick={this.onClickHandler}>
+                            Set subscription status to TRUE by clicking here: <button className="button" onClick={this.changeNewsLetter}>
                                 {this.state.isToggleOn ? 'ON' : 'OFF'}
                             </button>
                         </div>
@@ -114,78 +103,63 @@ class Homepage extends Component {
 
             )
         } else {
-
-
             return (
 
                 <div>
-                    <form className="form" onSubmit={this.submitHandler}>
+                    <form className="form" onSubmit={this.handleSubmit}>
                         <div>
                             <input
-
                                 type="text" id="unId"
                                 name="userName"
-                                value={userName}
-                                onChange={this.changeHandler}
+                                value={this.state.userName}
+                                onChange={this.handleChange}
                             />
-                            <label for="unId">New username:</label>
+                            <label htmlFor="unId">New username:</label>
                         </div>
                         <div>
-
                             <input
                                 type="email" id="emailId"
                                 name="userEmail"
-                                value={userEmail}
-                                onChange={this.changeHandler}
+                                value={this.state.userEmail}
+                                onChange={this.handleChange}
                             />
-                            <label for="emailId">New email:</label>
+                            <label htmlFor="emailId">New email:</label>
                         </div>
                         <div>
-
                             <input
                                 type="password" id="passwordId"
                                 name="password"
-                                value={password}
-                                onChange={this.changeHandler}
+                                value={this.state.password}
+                                onChange={this.handleChange}
                             />
-                            <label for="passwordId">New password:</label>
+                            <label htmlFor="passwordId">New password:</label>
                         </div>
-                        <button class="registerButton" type="submit" onClick={this.adduser} >Register</button>
-
-
+                        <button className="registerButton" type="submit" onClick={this.addUser} >Register</button>
                     </form>
-
-                    <form className="form1" onSubmit={this.submitHandler}>
-
+                    <form className="form1" onSubmit={this.handleSubmit}>
                         <div>
                             <input
                                 type="text" id="loggedUserId"
-
                                 name="loginUserName"
-                                value={loginUserName}
-                                onChange={this.changeHandler}
+                                //value={this.state.input || ""}
+                                value={this.state.loginUserName}
+                                onChange={this.handleChange}
                             />
-                            <label for="loggedUserId">username:</label>
+                            <label htmlFor="loggedUserId">username:</label>
                         </div>
-
                         <div>
                             <input
                                 type="text" id="userloginPassowrdId"
-
                                 name="loginUserPassword"
-                                value={loginUserPassword}
-                                onChange={this.changeHandler}
+                                //value={this.state.input || ""}
+                                value={this.state.loginUserPassword}
+                                onChange={this.handleChange}
                             />
-                            <label for="userloginPassowrdId">password:</label>
+                            <label htmlFor="userloginPassowrdId">password:</label>
                         </div>
-
-                        <button class="button" type="submit" onClick={this.login} >Login</button>
-
-
+                        <button className="button" type="submit" onClick={this.login} >Login</button>
                     </form>
                 </div>
-
-
             )
 
         }
