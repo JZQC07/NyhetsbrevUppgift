@@ -1,8 +1,6 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import axios from 'axios';
-import '../'
-
-
+import '../App';
 class Homepage extends Component {
 
 
@@ -68,18 +66,15 @@ class Homepage extends Component {
     }
 
     changeNewsLetter = () => {
-        this.setState({subscribed: true})
-        console.log(this.state);
-        axios.put("http://localhost:3000/users/" + this.state.id, this.state)
-            .then(response => {
-                console.log(response)
-
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        axios.put("http://localhost:3000/users/:id")
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error);
+        })
     }
-    
+
     render() {
 
         if (this.state.loggedIn === true) {
