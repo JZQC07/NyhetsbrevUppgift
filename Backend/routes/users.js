@@ -1,5 +1,6 @@
 var express = require("express");
 var fs = require("fs");
+const { response } = require("express");
 var router = express.Router();
 
 /* GET users listing. */
@@ -7,7 +8,6 @@ router.get("/", function (req, res, next) {
   fs.readFile("users.json", (err, data) => {
     if (err) throw err;
     var users = JSON.parse(data);
-
     res.send(users);
   });
 });
@@ -68,40 +68,36 @@ router.post("/login", function (req, res) {
 
 //Uppdatera newsletter
 router.put("/:id", (req, res) => {
-  
+  var id = parseInt(req.params.id);
   fs.readFile("users.json", (err, data) => {
     if (err) throw err;
-
     var users = JSON.parse(data);
-
-    for (let i = 0; i < users.length; i++) {
-      if (req.body.id == i) {
-        users[i].subscribed = req.body.subscribed;
-        var saveUser = JSON.stringify(users, null, 2);
-        fs.writeFile("users.json", saveUser, (err, data) => {
-          if (err) throw err;
-        });
-        res.send("Subscription status has been updated for user with id: " + i);
+    users.forEach(u => {
+      if (u.id === id) {
+        u.subscribed = true
       }
-    }
-    res.send("Did not find a user with matching id..");
-  });
-});
-
-/*router.put('/users/:id', (req, res) => {
-  var id = parseInt(req.params.id);
-  var updatedUser = req.body.subscribed;
-
-  fs.readFile('users.json', (err, data) => {
-    if (err) throw err;
-    var users = JSON.parse(data);
-    var userFind = users.find((user) => user.id == id);
-    userFind.newsletter = updatedUser;
+      if(u.subscribed === true)
+      {
+        u.subscribed = false;
+      }
     });
-    fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+    fs.writeFile("users.json", JSON.stringify(users), (err) => {
       if (err) throw err;
-    });
-    res.status(200).send(req.body);
-  });*/
+    })
+
+
+                        /*for (let i = 0; i < users.length; i++) {
+                          if (req.body.id == i) {
+                            users[i].subscribed = req.body.subscribed;
+                            var saveUser = JSON.stringify(users, null, 2);
+                            fs.writeFile("users.json", saveUser, (err, data) => {
+                              if (err) throw err;
+                            });
+                            res.send("Subscription status has been updated for user with id: " + i);
+                          }
+                        }*/
+  });
+  res.status(200).send(req.body);
+});
 
 module.exports = router;

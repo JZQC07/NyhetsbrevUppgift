@@ -7,7 +7,7 @@ class Homepage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: "",
+            id: 0,
             userName: '',
             userEmail: '',
             password: '',
@@ -47,32 +47,39 @@ class Homepage extends Component {
                     console.log("Något gick fel här..");
                 } else {
                     var loggedInUser = {
+                        
+                        //id: response.data.id,
                         userName: response.data.loginUserName,
                         subscribed: response.data.subscribed,
                     };
                     this.setState({
                         ...this.state,
-                        loggedIn: response.data.loggedIn
+                        loggedIn: response.data.loggedIn,
+                        id: response.data.id
                     });
                     localStorage.setItem(
                         "currentLoggedInUser",
                         JSON.stringify(loggedInUser)
 
                     );
+                    console.log("ID: " + this.state.id);
                 }
             })
         e.preventDefault();
 
     }
 
-    changeNewsLetter = () => {
-        var id = this.props.id;
-        axios.put("http://localhost:3000/users/" + id, this.state)
+    changeNewsLetter = e => {
+        e.preventDefault();
+        var id = this.state.id;
+        console.log(id);
+        axios.put("http://localhost:3000/users/" + id)
         .then(response => {
             console.log(response);    
         })
         .catch(error => {
             console.log(error);
+            console.log(id);
         })
     }
 
@@ -93,8 +100,6 @@ class Homepage extends Component {
                         </div>
 
                     </form>
-
-
                 </div>
 
             )
