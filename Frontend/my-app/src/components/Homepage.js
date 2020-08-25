@@ -66,7 +66,8 @@ class Homepage extends Component {
     }
 
     changeNewsLetter = () => {
-        axios.put("http://localhost:3000/users/" + this.state.id, this.state)
+        var id = this.props.id;
+        axios.put("http://localhost:3000/users/" + id, this.state)
         .then(response => {
             console.log(response);    
         })

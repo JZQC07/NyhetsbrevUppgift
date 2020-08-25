@@ -1,24 +1,20 @@
-var express = require('express');
-var fs = require('fs');
+var express = require("express");
+var fs = require("fs");
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-
-  fs.readFile('users.json', (err, data) => {
-
+router.get("/", function (req, res, next) {
+  fs.readFile("users.json", (err, data) => {
     if (err) throw err;
     var users = JSON.parse(data);
 
     res.send(users);
-
-  })
+  });
 });
 
-
 //Skapa användare
-router.post('/', function (req, res) {
-  fs.readFile('users.json', (err, data) => {
+router.post("/", function (req, res) {
+  fs.readFile("users.json", (err, data) => {
     if (err) throw err;
     var users = JSON.parse(data);
     let userId = 0;
@@ -31,10 +27,10 @@ router.post('/', function (req, res) {
       userEmail: req.body.userEmail,
       password: req.body.password,
       subscribed: false,
-      loggedIn: false
+      loggedIn: false,
     };
     users.push(user);
-    fs.writeFile('users.json', JSON.stringify(users), (err) => {
+    fs.writeFile("users.json", JSON.stringify(users), (err) => {
       if (err) throw err;
     });
   });
@@ -42,16 +38,15 @@ router.post('/', function (req, res) {
 });
 
 //Logga in
-router.post('/login', function (req, res) {
+router.post("/login", function (req, res) {
   var newUsername = req.body.loginUserName;
   var newPassword = req.body.loginUserPassword;
 
-  fs.readFile('users.json', (err, data) => {
-
+  fs.readFile("users.json", (err, data) => {
     var users = JSON.parse(data);
     if (err) throw err;
 
-    const [foundUser] = users.filter(user => {
+    const [foundUser] = users.filter((user) => {
       return user.userName === newUsername && user.password === newPassword;
     });
 
@@ -68,33 +63,30 @@ router.post('/login', function (req, res) {
         userEmail: null,
       });
     }
-  })
+  });
 });
 
-
 //Uppdatera newsletter
-router.put('/users/:id', (req, res) => {
-  fs.readFile('users.json', (err, data) => {
+router.put("/:id", (req, res) => {
+  
+  fs.readFile("users.json", (err, data) => {
     if (err) throw err;
 
     var users = JSON.parse(data);
 
     for (let i = 0; i < users.length; i++) {
       if (req.body.id == i) {
-        users[i].subscribed = req.body.subscribed
+        users[i].subscribed = req.body.subscribed;
         var saveUser = JSON.stringify(users, null, 2);
-        fs.writeFile('users.json', saveUser, (err, data) => {
-          if (err) throw err
-        })
+        fs.writeFile("users.json", saveUser, (err, data) => {
+          if (err) throw err;
+        });
         res.send("Subscription status has been updated for user with id: " + i);
       }
     }
     res.send("Did not find a user with matching id..");
-  })
-})
-
-
-
+  });
+});
 
 /*router.put('/users/:id', (req, res) => {
   var id = parseInt(req.params.id);
@@ -111,6 +103,5 @@ router.put('/users/:id', (req, res) => {
     });
     res.status(200).send(req.body);
   });*/
-
 
 module.exports = router;
