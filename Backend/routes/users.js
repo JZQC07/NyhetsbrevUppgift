@@ -74,11 +74,7 @@ router.put("/:id", (req, res) => {
     var users = JSON.parse(data);
     users.forEach(u => {
       if (u.id === id) {
-        u.subscribed = true
-      }
-      if(u.subscribed === true)
-      {
-        u.subscribed = false;
+        u.subscribed = true;
       }
     });
     fs.writeFile("users.json", JSON.stringify(users), (err) => {

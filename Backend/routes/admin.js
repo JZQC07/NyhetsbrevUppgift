@@ -9,16 +9,16 @@ router.get("/", function (req, res) {
     fs.readFile('users.json', (err, data) => {
         if (err) throw err;
         currentUsers = JSON.parse(data);
-
-
         currentUsers.forEach((element) => {
             emails.push(element.userEmail);
         });
 
+        let welcomeMessage = "Lista över användare som prenumererar på nyhetsbrev: "
         let html = "";
         html += "<html>";
         html += "<body>";
-
+        html += "<div>";
+        html += "<h1>" + welcomeMessage +"</h1>";
         currentUsers.forEach((user) => {
             html += "<br><div>";
             html += "<li>";

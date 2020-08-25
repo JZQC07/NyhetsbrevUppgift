@@ -47,7 +47,6 @@ class Homepage extends Component {
                     console.log("Något gick fel här..");
                 } else {
                     var loggedInUser = {
-                        
                         //id: response.data.id,
                         userName: response.data.loginUserName,
                         subscribed: response.data.subscribed,
