@@ -86,14 +86,10 @@ class Homepage extends Component {
 
         if (this.state.loggedIn === true) {
             return (
-
                 <div className="body">
-                    <p>
-                        Click the green button below to change newsletter subscription status to TRUE.
-            </p>
                     <form>
                         <div className="newsletter">
-                            Set subscription status to TRUE by clicking here: <button className="button" onClick={this.changeNewsLetter}>
+                            <h1>Set subscription status to TRUE by clicking here: </h1><button className="button" onClick={this.changeNewsLetter}>
                                 {this.state.isToggleOn ? 'ON' : 'OFF'}
                             </button>
                         </div>
@@ -149,7 +145,7 @@ class Homepage extends Component {
                         </div>
                         <div>
                             <input
-                                type="text" id="userloginPassowrdId"
+                                type="password" id="userloginPassowrdId"
                                 name="loginUserPassword"
                                 //value={this.state.input || ""}
                                 value={this.state.loginUserPassword}

@@ -68,24 +68,27 @@ router.post("/login", function (req, res) {
 
 //Uppdatera newsletter
 router.put("/:id", (req, res) => {
-  var id = parseInt(req.params.id);
-  var updateSub = req.body.subscribed;
-  fs.readFile("users.json", (err, data) => {
-    if (err) throw err;
-    var users = JSON.parse(data);
-    users.forEach((u) => {
-      if (u.id === id) {
-        u.subscribed = updateSub;
-      }
-    });
-    fs.writeFile("users.json", JSON.stringify(users), (err) => {
-      if (err) throw err;
-    });
+var id = parseInt(req.params.id);
 
-    /*for (let i = 0; i < users.length; i++) {
-                          if (req.body.id == i) {
-                            users[i].subscribed = req.body.subscribed;
-                            var saveUser = JSON.stringify(users, null, 2);
+fs.readFile("users.json", (err, data) => {
+      if (err) throw err;
+      var users = JSON.parse(data);
+      users.forEach(u => {
+        if (u.id === id && u.subscribed != true) {
+          u.subscribed = true;
+        }
+        else if(u.id === id && u.subscribed == true) {
+          u.subscribed = false;
+        }
+      });
+      fs.writeFile("users.json", JSON.stringify(users), (err) => {
+        if (err) throw err;
+      })
+
+      /*for (let i = 0; i < users.length; i++) {
+        if (req.body.id == i) {
+          users[i].subscribed = req.body.subscribed;
+          var saveUser = JSON.stringify(users, null, 2);
                             fs.writeFile("users.json", saveUser, (err, data) => {
                               if (err) throw err;
                             });

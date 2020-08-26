@@ -18,7 +18,7 @@ router.get("/", function (req, res) {
         html += "<html>";
         html += "<body>";
         html += "<div>";
-        html += "<h1>" + welcomeMessage +"</h1>";
+        html += "<h1>" + welcomeMessage + "</h1>";
         currentUsers.forEach((user) => {
             html += "<br><div>";
             html += "<li>";
